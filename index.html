@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pingd — Self-hosted notification relay</title>
+<meta name="description" content="Self-hosted push notifications for topics, devices, and lightweight operational messaging. APNS, Web Push, SSE, and a PWA dashboard out of the box.">
+<meta name="theme-color" content="#110f0d">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav id="nav" aria-label="Primary">
+  <a class="brand" href="#top">
+    <svg class="mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+      <use href="#tower-mark"/>
+    </svg>
+    <span class="brand-name">pingd</span>
+  </a>
+  <div class="nav-links">
+    <a href="https://pingd.dev/docs" target="_blank" rel="noopener" data-goatcounter-click="/docs" data-goatcounter-title="Docs nav link">Docs</a>
+    <a href="https://github.com/saeid/pingd" target="_blank" rel="noopener" data-goatcounter-click="/github" data-goatcounter-title="GitHub nav link">GitHub</a>
+    <a class="btn btn-primary btn-sm" href="coming-soon.html" data-goatcounter-click="/open-app" data-goatcounter-title="Open app nav button">Open app</a>
+  </div>
+</nav>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
+
+    <div class="reveal">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>open source · self-hostable</span>
+      </div>
+    </div>
+
+    <h1 class="reveal" style="--reveal-delay: 80ms">
+      Effortless push notifications.
+    </h1>
+
+    <p class="hero-sub reveal" style="--reveal-delay: 160ms">
+      Send alerts from any script, service, or shell, then receive them on mobile,
+      desktop, or in your terminal.
+    </p>
+
+    <div class="hero-ctas reveal" style="--reveal-delay: 220ms">
+      <a class="btn btn-primary" href="coming-soon.html" data-goatcounter-click="/open-app" data-goatcounter-title="Open app hero button">Open app <span aria-hidden="true">→</span></a>
+      <a class="btn btn-ghost" href="https://pingd.dev/docs" target="_blank" rel="noopener" data-goatcounter-click="/docs" data-goatcounter-title="Docs hero button">Read docs</a>
+    </div>
+
+    <div class="terminal-wrap reveal" style="--reveal-delay: 300ms">
+      <div class="terminal" role="region" aria-label="Code examples">
+        <div class="terminal-bar">
+          <div class="terminal-dots" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="terminal-tabs" role="tablist" aria-label="Code example language">
+            <button role="tab" id="tab-curl" aria-controls="panel-curl" aria-selected="true" tabindex="0" data-tab="curl">curl</button>
+            <button role="tab" id="tab-cli" aria-controls="panel-cli" aria-selected="false" tabindex="-1" data-tab="cli">CLI</button>
+            <button role="tab" id="tab-python" aria-controls="panel-python" aria-selected="false" tabindex="-1" data-tab="python">Python</button>
+          </div>
+          <div class="terminal-spacer"></div>
+        </div>
+
+        <div class="terminal-body">
+          <pre class="snippet" data-snippet="curl" id="panel-curl" role="tabpanel" aria-labelledby="tab-curl"><code><span class="t-dim"># publish a message to an open topic</span>
+<span class="t-cmd">$ curl https://pingd.dev/topics/alerts/messages \
+    -H 'Content-Type: application/json' \
+    -d '{"payload":{"body":"Deploy finished: v2.4.1"}}'</span>
+
+<span class="t-out">{ "id": "a3f9...", "topic": "alerts",</span>
+<span class="t-out">  "time": "2026-04-26T21:00:31Z" }</span></code></pre>
+
+          <pre class="snippet" data-snippet="cli" id="panel-cli" role="tabpanel" aria-labelledby="tab-cli" hidden><code><span class="t-dim"># publish a message</span>
+<span class="t-cmd">$ pingd-cli messages publish --topic alerts --body "Deploy finished: v2.4.1"</span>
+
+<span class="t-dim"># watch a topic live over SSE</span>
+<span class="t-cmd">$ pingd-cli messages watch --topic alerts</span>
+<span class="t-accent">• [21:00:31]  Deploy finished: v2.4.1</span></code></pre>
+
+          <pre class="snippet" data-snippet="python" id="panel-python" role="tabpanel" aria-labelledby="tab-python" hidden><code><span class="t-kw">import</span> requests
+
+requests.post(
+    <span class="t-str">"https://pingd.dev/topics/alerts/messages"</span>,
+    json={<span class="t-str">"payload"</span>: {<span class="t-str">"body"</span>: <span class="t-str">"Deploy finished: v2.4.1"</span>}},
+)</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="section-head reveal">
+      <h2>Everything you need.<br>Nothing you don't.</h2>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-card reveal">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <h3>Send from anywhere</h3>
+        <p>Trigger notifications from scripts, services, cron jobs, CI pipelines, or any tool that can make an HTTP request.</p>
+      </article>
+
+      <article class="feature-card reveal" style="--reveal-delay: 60ms">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3>Organized by topic</h3>
+        <p>Route alerts into topics with ACLs for read/publish access and pattern-based permissions.</p>
+      </article>
+
+      <article class="feature-card reveal" style="--reveal-delay: 120ms">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+          </svg>
+        </div>
+        <h3>Reach every screen</h3>
+        <p>Receive alerts on mobile and desktop browsers, with delivery tracked per device so failures are visible.</p>
+      </article>
+
+      <article class="feature-card reveal" style="--reveal-delay: 180ms">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </div>
+        <h3>Watch messages live</h3>
+        <p>Follow a topic in real time from the terminal, dashboard, or your own client when you need a live event feed.</p>
+      </article>
+
+      <article class="feature-card reveal" style="--reveal-delay: 240ms">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07L11.75 5.17"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+        </div>
+        <h3>Webhook-ready</h3>
+        <p>Give each topic an inbound URL and transform incoming JSON into clean, useful messages.</p>
+      </article>
+
+      <article class="feature-card reveal" style="--reveal-delay: 300ms">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
+          </svg>
+        </div>
+        <h3>Self-hosted by design</h3>
+        <p>Run one small service with Docker support when you want notifications on your own infrastructure.</p>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="tower-mark" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <path d="M2.16 11.04 A9.84 9.84 0 0 1 21.84 11.04" opacity="0.22"/>
+        <path d="M5.04 11.04 A6.96 6.96 0 0 1 18.96 11.04" opacity="0.55"/>
+        <path d="M7.92 11.04 A4.08 4.08 0 0 1 16.08 11.04"/>
+        <line x1="12" y1="11.04" x2="12" y2="17.76"/>
+        <line x1="12" y1="15.6"  x2="7.68" y2="17.76"/>
+        <line x1="12" y1="15.6"  x2="16.32" y2="17.76"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<script src="app.js" defer></script>
+<script data-goatcounter="https://pingd.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

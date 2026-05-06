@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g fill="none" stroke="oklch(62% 0.14 44)" stroke-width="1.6" stroke-linecap="round">
+        <path d="M2.16 11.04 A9.84 9.84 0 0 1 21.84 11.04" opacity="0.22"/>
+        <path d="M5.04 11.04 A6.96 6.96 0 0 1 18.96 11.04" opacity="0.55"/>
+        <path d="M7.92 11.04 A4.08 4.08 0 0 1 16.08 11.04"/>
+        <line x1="12" y1="11.04" x2="12" y2="17.76"/>
+        <line x1="12" y1="15.6"  x2="7.68" y2="17.76"/>
+        <line x1="12" y1="15.6"  x2="16.32" y2="17.76"/>
+    </g>
+</svg>
