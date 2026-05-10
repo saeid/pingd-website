@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pingd — coming soon</title>
+<meta name="description" content="pingd is wiring up the antenna. A self-hosted notification relay, coming soon at pingd.dev.">
+<meta name="theme-color" content="#110f0d">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #110f0d;
+    --surface: #1a1714;
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #f0ebe5;
+    --muted: rgba(240, 235, 229, 0.45);
+    --dim: rgba(240, 235, 229, 0.22);
+    --accent: oklch(62% 0.14 44);
+    --accent-soft: oklch(62% 0.14 44 / 0.10);
+    --accent-glow: oklch(62% 0.14 44 / 0.6);
+    --vignette: oklch(62% 0.14 44 / 0.16);
+    --mono: 'DM Mono', monospace;
+    --sans: 'Space Grotesk', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  ::selection { background: oklch(62% 0.14 44 / 0.35); }
+
+  .glow {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 720px; height: 720px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--vignette), transparent 60%);
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 10;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-name {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+  main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mark-wrap { margin-bottom: 24px; }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent-soft);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    margin-bottom: 28px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .headline {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: clamp(48px, 9vw, 104px);
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--text);
+  }
+  .caret {
+    display: inline-block;
+    width: 4px;
+    height: 0.85em;
+    background: var(--accent);
+    margin-left: 0.14em;
+    border-radius: 1px;
+    animation: caret 1s steps(1) infinite;
+  }
+
+  .tagline {
+    margin-top: 24px;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .footlinks {
+    position: fixed;
+    bottom: 24px;
+    left: 0; right: 0;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 5;
+  }
+  .footlinks a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footlinks a:hover,
+  .footlinks a:focus-visible { color: var(--text); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: reveal 0.8s ease forwards;
+  }
+  .reveal.d1 { animation-delay: 0.08s; }
+  .reveal.d2 { animation-delay: 0.22s; }
+  .reveal.d3 { animation-delay: 0.30s; }
+  .reveal.d4 { animation-delay: 0.42s; }
+
+  @keyframes reveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes caret {
+    0%, 49%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; opacity: 1; transform: none; }
+    .caret { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M2.74 10.12 A8.36 8.36 0 0 1 19.26 10.12" stroke="oklch(62% 0.14 44)" stroke-width="0.75" stroke-linecap="round" opacity="0.22"/>
+      <path d="M4.62 10.12 A6.38 6.38 0 0 1 17.38 10.12" stroke="oklch(62% 0.14 44)" stroke-width="0.75" stroke-linecap="round" opacity="0.55"/>
+      <path d="M7.26 10.12 A3.74 3.74 0 0 1 14.74 10.12" stroke="oklch(62% 0.14 44)" stroke-width="0.75" stroke-linecap="round"/>
+      <line x1="11" y1="10.12" x2="11" y2="16.28" stroke="oklch(62% 0.14 44)" stroke-width="0.75" stroke-linecap="round"/>
+      <line x1="11" y1="14.30" x2="7.04" y2="16.28" stroke="oklch(62% 0.14 44)" stroke-width="0.75" stroke-linecap="round"/>
+      <line x1="11" y1="14.30" x2="14.96" y2="16.28" stroke="oklch(62% 0.14 44)" stroke-width="0.75" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-name">pingd</span>
+  </div>
+</header>
+
+<main>
+  <div class="reveal d1 mark-wrap">
+    <svg width="140" height="140" viewBox="0 0 140 140" fill="none" aria-hidden="true">
+      <path d="M12.6 64.4 A57.4 57.4 0 0 1 127.4 64.4" stroke="oklch(62% 0.14 44)" stroke-width="4.76" stroke-linecap="round" opacity="0.22"/>
+      <path d="M29.4 64.4 A40.6 40.6 0 0 1 110.6 64.4" stroke="oklch(62% 0.14 44)" stroke-width="4.76" stroke-linecap="round" opacity="0.55"/>
+      <path d="M46.2 64.4 A23.8 23.8 0 0 1 93.8 64.4" stroke="oklch(62% 0.14 44)" stroke-width="4.76" stroke-linecap="round"/>
+      <line x1="70" y1="64.4" x2="70" y2="103.6" stroke="oklch(62% 0.14 44)" stroke-width="4.76" stroke-linecap="round"/>
+      <line x1="70" y1="91" x2="44.8" y2="103.6" stroke="oklch(62% 0.14 44)" stroke-width="4.76" stroke-linecap="round"/>
+      <line x1="70" y1="91" x2="95.2" y2="103.6" stroke="oklch(62% 0.14 44)" stroke-width="4.76" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="reveal d2 kicker">under construction</div>
+
+  <div class="reveal d3">
+    <h1 class="headline">
+      <span>coming soon.</span>
+      <span class="caret" aria-hidden="true"></span>
+    </h1>
+  </div>
+
+  <p class="reveal d4 tagline">wiring up the antenna</p>
+</main>
+
+<nav class="footlinks" aria-label="Social">
+  <a href="https://github.com/saeid/pingd">GitHub</a>
+</nav>
+
+</body>
+</html>
